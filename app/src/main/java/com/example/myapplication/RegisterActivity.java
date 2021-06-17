@@ -22,6 +22,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -50,6 +52,8 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth =FirebaseAuth.getInstance();
         pd= new ProgressDialog(this);
 
+        //FirebaseDatabase.getInstance().getReference().child("progra").child("android").setValue("abcdfhhj");
+
         loginUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,40 +80,42 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void registerUser(String Username, String name, String email, String password) {
+    private void registerUser(String username, String name, String email, String password) {
         pd.setMessage("Please Wait");
         pd.show();
         mAuth.createUserWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
-                HashMap<String,Object>map=new HashMap<>();
+                HashMap<String,Object>  map=new HashMap<>();
                 map.put("name", name);
                 map.put("email", email);
                 map.put("username",username);
-                map.put("id",mAuth.getCurrentUser().getUid());
+            map.put("id",mAuth.getCurrentUser().getUid());
+
                 mRootRef.child("users").child(mAuth.getCurrentUser().getUid()).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+                    public void onComplete(@NonNull @NotNull Task<Void> task) {
                         if (task.isSuccessful()){
                             pd.dismiss();
                             Toast.makeText(RegisterActivity.this, "update Profile for Better Experience", Toast.LENGTH_SHORT).show();
-                            //Intent intent =new Intent( RegisterActivity.this, HomeActivity.class);
-                            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            //startActivity(intent);
-                            //finish();
+                            Intent intent =new Intent( RegisterActivity.this, HomeActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                            finish();
                         }
 
                     }
-                });
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull  Exception e) {
-                pd.dismiss();
-                Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        });
+                   }
+              //  }).addOnFailureListener(new OnFailureListener() {
+            //@Override
+            //public void onFailure(@NonNull  Exception e) {
+              //  pd.dismiss();
+                //Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
 
-            }
+          //  }
         });
             }
+
 
 }//37.22
