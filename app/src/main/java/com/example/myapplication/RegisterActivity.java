@@ -90,7 +90,10 @@ public class RegisterActivity extends AppCompatActivity {
                 map.put("name", name);
                 map.put("email", email);
                 map.put("username",username);
+                map.put("password",password);
             map.put("id",mAuth.getCurrentUser().getUid());
+            map.put("bio","");
+            map.put("imageurl","default");
 
                 mRootRef.child("users").child(mAuth.getCurrentUser().getUid()).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -107,13 +110,12 @@ public class RegisterActivity extends AppCompatActivity {
                     }
         });
                    }
-              //  }).addOnFailureListener(new OnFailureListener() {
-            //@Override
-            //public void onFailure(@NonNull  Exception e) {
-              //  pd.dismiss();
-                //Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-
-          //  }
+               }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull  Exception e) {
+               pd.dismiss();
+               Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         });
             }
 

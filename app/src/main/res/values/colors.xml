@@ -10,4 +10,5 @@
     <color name="Ben">#455cde</color>
     <color name="colorPrimaryDark">#000d3d</color>
     <color name="colorAccent">#c2bdbf</color>
+    <color name="colorPrimary">#455cde</color>
 </resources>
