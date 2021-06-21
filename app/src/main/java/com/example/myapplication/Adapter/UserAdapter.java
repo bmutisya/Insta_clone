@@ -48,18 +48,37 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull UserAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull  UserAdapter.ViewHolder holder, int position) {
         firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
         User user =mUsers.get(position);
         holder.btnFollow.setVisibility(View.VISIBLE);
+
         holder.username.setText(user.getUsername());
         holder.fullName.setText(user.getName());
+
         Picasso.get().load(user.getImageurl()).placeholder(R.mipmap.ic_launcher).into(holder.imageProfile);
 
         isFollow(user.getId(), holder.btnFollow);
         if (user.getId().equals(firebaseUser.getUid())){
             holder.btnFollow.setVisibility(View.GONE);
         }
+        holder.btnFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.btnFollow.getText().toString().equals(("follow"))){
+                    FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid()).child("following").child(user.getId()).setValue(true);
+                    FirebaseDatabase.getInstance().getReference().child("Follow").child(user.getId()).
+                            child("followers").child(firebaseUser.getUid()).setValue(true);
+
+                }else {
+                    FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid()).child("following").child(user.getId()).removeValue();
+                    FirebaseDatabase.getInstance().getReference().child("Follow").child(user.getId()).
+                            child("followers").child(firebaseUser.getUid()).removeValue();
+
+                }
+            }
+        });
+
 
 
     }
@@ -71,9 +90,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 if (snapshot.child(id).exists())
-                    btnFollow.setText("Following");
+                    btnFollow.setText("following");
                 else
-                    btnFollow.setText("Follow");
+                    btnFollow.setText("follow");
             }
 
             @Override
