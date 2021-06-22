@@ -38,7 +38,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.viewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull TagAdapter.viewHolder holder, int position) {
-       //holder.tag.setText("#" + mTags.get(position));
+       holder.tag.setText("#" + mTags.get(position));
         holder.noOfPosts.setText(mTagsCount.get(position)+ "posts");
 
     }
@@ -54,15 +54,15 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.viewHolder> {
 
         public viewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
-            tag = itemView.findViewWithTag(R.id.hash_tag);
+            tag = itemView.findViewById(R.id.hash_tag);
             noOfPosts=itemView.findViewById(R.id.no_of_posts);
 
         }
     }
-   // public void filter (List<String> filterTags,List<String> filterTagsCount ){
+    public void filter (List<String> filterTags,List<String> filterTagsCount ){
 
-        //this.mTags =filterTags;
-        //.mTagsCount= filterTagsCount;
-       // notifyDataSetChanged();
-   // }
+        this.mTags =filterTags;
+        this.mTagsCount= filterTagsCount;
+       notifyDataSetChanged();
+   }
 }
