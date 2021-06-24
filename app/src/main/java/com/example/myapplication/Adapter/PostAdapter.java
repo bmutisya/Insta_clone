@@ -35,6 +35,7 @@ public class PostAdapter extends  RecyclerView.Adapter<PostAdapter.Viewholder> {
     public PostAdapter(Context mContext, List<Post> mPost) {
         this.mContext = mContext;
         this.mPost = mPost;
+
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     }
 
@@ -49,6 +50,7 @@ public class PostAdapter extends  RecyclerView.Adapter<PostAdapter.Viewholder> {
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull PostAdapter.Viewholder holder, int position) {
+
 
         Post post = mPost.get(position);
         Picasso.get().load(post.getImageurl()).into(holder.postImage);
@@ -75,7 +77,7 @@ public class PostAdapter extends  RecyclerView.Adapter<PostAdapter.Viewholder> {
         });
         isLiked(post.getPostid(),holder.like);
 
-       noOfLikes(post.getPostid(), holder.noOfLikes);
+      noOfLikes(post.getPostid(), holder.noOfLikes);
          holder.like.setOnClickListener(new View.OnClickListener() {
           @Override
            public void onClick(View v) {
@@ -129,8 +131,8 @@ public class PostAdapter extends  RecyclerView.Adapter<PostAdapter.Viewholder> {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 if (snapshot.child(firebaseUser.getUid()).exists()){
-                    imageView.setImageResource(R.drawable.ic_liked);
-                   imageView.setTag("liked");
+                 imageView.setImageResource(R.drawable.ic_liked);
+                    imageView.setTag("liked");
 
                }else{
                   imageView.setImageResource(R.drawable.ic_like);
