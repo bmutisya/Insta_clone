@@ -92,8 +92,9 @@ public class PostActivity extends AppCompatActivity {
                     imageUrl=downloadUri.toString();
                     DatabaseReference ref= FirebaseDatabase.getInstance().getReference("Posts");
                     String postId =ref.push().getKey();
+
                     HashMap<String, Object> map=new HashMap<>();
-                    map.put("postId", postId);
+                    map.put("postid", postId);
                     map.put("imageurl", imageUrl);
                     map.put("description", description.getText().toString());
                     map.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
